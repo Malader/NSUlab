@@ -4,7 +4,7 @@
 #include "bigint.h"
 
 const int INT_MAX_LOCAL = 2147483647;
-const int INT_MIN_LOCAL = -2147483648;
+const int INT_MIN_LOCAL = -2147483648; //
 
 const std::string INT_MAX_LOCAL_STRING = "2147483647";
 const std::string INT_MIN_LOCAL_STRING = "-2147483648";
