@@ -15,6 +15,5 @@ FetchContent_Declare(
 
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
-
 add_executable(TestBigInt TestBigInt.cpp)
 target_link_libraries(TestBigInt PUBLIC gtest_main untitled1)
