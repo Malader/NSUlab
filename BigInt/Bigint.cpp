@@ -4,7 +4,7 @@
 #include <vector>
 
 using namespace std;
-//
+
 //                      блок с 13 по 21
 void BigInt::_remove_leading_zeros() {
     while (this->digits_.size() > 1 && this->digits_.back() == 0) {

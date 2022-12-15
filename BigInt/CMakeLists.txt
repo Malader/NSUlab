@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.23)
 project(untitled1)
 
 set(CMAKE_CXX_STANDARD 20)
-
 add_library(untitled1 STATIC Bigint.cpp Bigint.h)
 add_executable(Big main.cpp)
 target_link_libraries(Big PUBLIC untitled1)
