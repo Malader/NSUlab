@@ -18,19 +18,19 @@ struct StringArg {
 };
 
 struct BigIntPairArg {
-    BigInt val1;
-    BigInt val2;
+    ns::BigInt val1;
+    ns::BigInt val2;
     std::string expected;
 
-    BigIntPairArg(const BigInt &val1, const BigInt &val2, std::string expected) :
+    BigIntPairArg(const ns::BigInt &val1, const ns::BigInt &val2, std::string expected) :
             val1(val1), val2(val2), expected(std::move(expected)) {}
 };
 
 
 TEST(bigint_test, int_constructor) {
 
-ASSERT_EQ("2147483647", (std::string) BigInt(INT_MAX_LOCAL));
-ASSERT_EQ("-2147483648", (std::string) BigInt(INT_MIN_LOCAL));
+ASSERT_EQ("2147483647", (std::string) ns::BigInt(INT_MAX_LOCAL));
+ASSERT_EQ("-2147483648", (std::string) ns::BigInt(INT_MIN_LOCAL));
 
 }
 
@@ -51,47 +51,47 @@ INSTANTIATE_TEST_SUITE_P(
 
 TEST_P(StringConstructorTest, string_constructor) {
 StringArg arg = GetParam();
-ASSERT_EQ(arg.expected, (std::string) BigInt(arg.val));
+ASSERT_EQ(arg.expected, (std::string) ns::BigInt(arg.val));
 }
 
 TEST(bigint_test, copy_constructor) {
-BigInt val1 = BigInt(std::numeric_limits<int>::max());
-const BigInt &val2 = val1;
+ns::BigInt val1 = ns::BigInt(std::numeric_limits<int>::max());
+const ns::BigInt &val2 = val1;
 ASSERT_EQ(INT_MAX_LOCAL_STRING, (std::string) val2);
 }
 
 TEST(bigint_test, copy_operator_self_assignment) {
-BigInt val1 = BigInt(INT_MAX_LOCAL);
+    ns::BigInt val1 = ns::BigInt(INT_MAX_LOCAL);
 val1 = val1;
 ASSERT_EQ(INT_MAX_LOCAL_STRING, (std::string) val1);
 }
 
 TEST(bigint_test, bitwise_not) {
-BigInt val1 = BigInt(INT_MAX_LOCAL);
+ns::BigInt val1 = ns::BigInt(INT_MAX_LOCAL);
 ASSERT_EQ(INT_MIN_LOCAL_STRING, (std::string) ~val1);
 }
 
 TEST(bigint_test, postfix_unary_increment) {
-BigInt val1 = BigInt(1000);
-const BigInt val2 = val1++;
+ns::BigInt val1 = ns::BigInt(1000);
+const ns::BigInt val2 = val1++;
 ASSERT_EQ(1000, int(val2));
 }
 
 TEST(bigint_test, prefix_unary_increment) {
-BigInt val1 = BigInt(1000);
-const BigInt val2 = ++val1;
+ns::BigInt val1 = ns::BigInt(1000);
+const ns::BigInt val2 = ++val1;
 ASSERT_EQ(1001, int(val2));
 }
 
 TEST(bigint_test, postfix_unary_decrement) {
-BigInt val1 = BigInt(1000);
-const BigInt val2 = val1--;
+ns::BigInt val1 = ns::BigInt(1000);
+const ns::BigInt val2 = val1--;
 ASSERT_EQ(1000, int(val2));
 }
 
 TEST(bigint_test, prefix_unary_decrement) {
-BigInt val1 = BigInt(1000);
-const BigInt val2 = --val1;
+ns::BigInt val1 = ns::BigInt(1000);
+const ns::BigInt val2 = --val1;
 ASSERT_EQ(999, int(val2));
 }
 
@@ -102,11 +102,11 @@ INSTANTIATE_TEST_SUITE_P(
         bigint_test,
         BigIntAdditionTest,
         ::testing::Values(
-        BigIntPairArg(BigInt("0"), BigInt("-0"), "0"),
-        BigIntPairArg(BigInt("1000"), BigInt("1000"), "2000"),
-        BigIntPairArg(BigInt("-1000"), BigInt("1000"), "0"),
-        BigIntPairArg(BigInt("2147483647"), BigInt("1"), "2147483648"),
-        BigIntPairArg(BigInt("2147483647"), BigInt("4294967296"), "6442450943")
+        BigIntPairArg(ns::BigInt("0"), ns::BigInt("-0"), "0"),
+        BigIntPairArg(ns::BigInt("1000"), ns::BigInt("1000"), "2000"),
+        BigIntPairArg(ns::BigInt("-1000"), ns::BigInt("1000"), "0"),
+        BigIntPairArg(ns::BigInt("2147483647"), ns::BigInt("1"), "2147483648"),
+        BigIntPairArg(ns::BigInt("2147483647"), ns::BigInt("4294967296"), "6442450943")
 )
 );
 
@@ -128,13 +128,13 @@ INSTANTIATE_TEST_SUITE_P(
         bigint_test,
         BigIntSubtractionTest,
         ::testing::Values(
-        BigIntPairArg(BigInt("0"), BigInt("-0"), "0"),
-        BigIntPairArg(BigInt("1000"), BigInt("1000"), "0"),
-        BigIntPairArg(BigInt("-1000"), BigInt("1000"), "-2000"),
-        BigIntPairArg(BigInt("-1000"), BigInt("-1000"), "0"),
-        BigIntPairArg(BigInt("2147483648"), BigInt("1"), "2147483647"),
-        BigIntPairArg(BigInt("2147483647"), BigInt("4294967296"), "-2147483649"),
-        BigIntPairArg(BigInt("4294967296"), BigInt("2147483647"), "2147483649")
+        BigIntPairArg(ns::BigInt("0"), ns::BigInt("-0"), "0"),
+        BigIntPairArg(ns::BigInt("1000"), ns::BigInt("1000"), "0"),
+        BigIntPairArg(ns::BigInt("-1000"), ns::BigInt("1000"), "-2000"),
+        BigIntPairArg(ns::BigInt("-1000"), ns::BigInt("-1000"), "0"),
+        BigIntPairArg(ns::BigInt("2147483648"), ns::BigInt("1"), "2147483647"),
+        BigIntPairArg(ns::BigInt("2147483647"), ns::BigInt("4294967296"), "-2147483649"),
+        BigIntPairArg(ns::BigInt("4294967296"), ns::BigInt("2147483647"), "2147483649")
 )
 );
 
@@ -156,12 +156,12 @@ INSTANTIATE_TEST_SUITE_P(
         bigint_test,
         BigIntMultiplicationTest,
         ::testing::Values(
-        BigIntPairArg(BigInt("0"), BigInt("-0"), "0"),
-        BigIntPairArg(BigInt("-10"), BigInt("-10"), "100"),
-        BigIntPairArg(BigInt("1000"), BigInt("-1"), "-1000"),
-        BigIntPairArg(BigInt("1234567"), BigInt("789"), "974073363"),
-        BigIntPairArg(BigInt("2147483648"), BigInt("1"), "2147483648"),
-        BigIntPairArg(BigInt("2147483647"), BigInt("3"), "6442450941")
+        BigIntPairArg(ns::BigInt("0"), ns::BigInt("-0"), "0"),
+        BigIntPairArg(ns::BigInt("-10"), ns::BigInt("-10"), "100"),
+        BigIntPairArg(ns::BigInt("1000"), ns::BigInt("-1"), "-1000"),
+        BigIntPairArg(ns::BigInt("1234567"), ns::BigInt("789"), "974073363"),
+        BigIntPairArg(ns::BigInt("2147483648"), ns::BigInt("1"), "2147483648"),
+        BigIntPairArg(ns::BigInt("2147483647"), ns::BigInt("3"), "6442450941")
 )
 );
 
@@ -183,11 +183,11 @@ INSTANTIATE_TEST_SUITE_P(
         bigint_test,
         BigIntDivisionTest,
         ::testing::Values(
-        BigIntPairArg(BigInt("-10"), BigInt("-10"), "1"),
-        BigIntPairArg(BigInt("1000"), BigInt("-1"), "-1000"),
-        BigIntPairArg(BigInt("5000"), BigInt("5"), "1000"),
-        BigIntPairArg(BigInt("5000"), BigInt("11"), "454"),
-        BigIntPairArg(BigInt("4294967296"), BigInt("512"), "8388608")
+        BigIntPairArg(ns::BigInt("-10"), ns::BigInt("-10"), "1"),
+        BigIntPairArg(ns::BigInt("1000"), ns::BigInt("-1"), "-1000"),
+        BigIntPairArg(ns::BigInt("5000"), ns::BigInt("5"), "1000"),
+        BigIntPairArg(ns::BigInt("5000"), ns::BigInt("11"), "454"),
+        BigIntPairArg(ns::BigInt("4294967296"), ns::BigInt("512"), "8388608")
 )
 );
 
@@ -209,12 +209,12 @@ INSTANTIATE_TEST_SUITE_P(
         bigint_test,
         BigIntXorTest,
         ::testing::Values(
-        BigIntPairArg(BigInt("10"), BigInt("1"), "11"),
-        BigIntPairArg(BigInt("1000"), BigInt("-1000"), "0"), //Прямой код
-        BigIntPairArg(BigInt("-1000"), BigInt("-1000"), "0"),
-        BigIntPairArg(BigInt("54321"), BigInt("123"), "54346"),
-        BigIntPairArg(BigInt("54321"), BigInt("-123"), "-54346"), //Прямой код
-        BigIntPairArg(BigInt("4294967296"), BigInt("512"), "4294967808")
+        BigIntPairArg(ns::BigInt("10"), ns::BigInt("1"), "11"),
+        BigIntPairArg(ns::BigInt("1000"), ns::BigInt("-1000"), "0"), //Прямой код
+        BigIntPairArg(ns::BigInt("-1000"), ns::BigInt("-1000"), "0"),
+        BigIntPairArg(ns::BigInt("54321"), ns::BigInt("123"), "54346"),
+        BigIntPairArg(ns::BigInt("54321"), ns::BigInt("-123"), "-54346"), //Прямой код
+        BigIntPairArg(ns::BigInt("4294967296"), ns::BigInt("512"), "4294967808")
 )
 );
 
@@ -238,10 +238,10 @@ INSTANTIATE_TEST_SUITE_P(
         bigint_test,
         BigIntModTest,
         ::testing::Values(
-        BigIntPairArg(BigInt("1000"), BigInt("-6"), "4"),
-        BigIntPairArg(BigInt("-1000"), BigInt("1000"), "0"),
-        BigIntPairArg(BigInt("2147483647"), BigInt("2147483646"), "1"),
-        BigIntPairArg(BigInt("4294967296"), BigInt("1023"), "4")
+        BigIntPairArg(ns::BigInt("1000"), ns::BigInt("-6"), "4"),
+        BigIntPairArg(ns::BigInt("-1000"), ns::BigInt("1000"), "0"),
+        BigIntPairArg(ns::BigInt("2147483647"), ns::BigInt("2147483646"), "1"),
+        BigIntPairArg(ns::BigInt("4294967296"), ns::BigInt("1023"), "4")
 )
 );
 
@@ -263,12 +263,12 @@ INSTANTIATE_TEST_SUITE_P(
         bigint_test,
         BigIntAndTest,
         ::testing::Values(
-        BigIntPairArg(BigInt("10"), BigInt("1"), "0"),
-        BigIntPairArg(BigInt("1000"), BigInt("-1000"), "8"), //Дополнительный код
-        BigIntPairArg(BigInt("-1000"), BigInt("-1000"), "-1000"),
-        BigIntPairArg(BigInt("54321"), BigInt("123"), "49"),
-        BigIntPairArg(BigInt("4294967296"), BigInt("512"), "0"),
-        BigIntPairArg(BigInt("4294967295"), BigInt("512"), "512")
+        BigIntPairArg(ns::BigInt("10"), ns::BigInt("1"), "0"),
+        BigIntPairArg(ns::BigInt("1000"), ns::BigInt("-1000"), "8"), //Дополнительный код
+        BigIntPairArg(ns::BigInt("-1000"), ns::BigInt("-1000"), "-1000"),
+        BigIntPairArg(ns::BigInt("54321"), ns::BigInt("123"), "49"),
+        BigIntPairArg(ns::BigInt("4294967296"), ns::BigInt("512"), "0"),
+        BigIntPairArg(ns::BigInt("4294967295"), ns::BigInt("512"), "512")
 )
 );
 
@@ -290,12 +290,12 @@ INSTANTIATE_TEST_SUITE_P(
         bigint_test,
         BigIntOrTest,
         ::testing::Values(
-        BigIntPairArg(BigInt("10"), BigInt("1"), "11"),
-        BigIntPairArg(BigInt("1000"), BigInt("-1000"), "-8"), //Дополнительный код
-        BigIntPairArg(BigInt("-1000"), BigInt("-1000"), "-1000"),
-        BigIntPairArg(BigInt("54321"), BigInt("123"), "54395"),
-        BigIntPairArg(BigInt("4294967296"), BigInt("512"), "4294967808"),
-        BigIntPairArg(BigInt("4294967295"), BigInt("512"), "4294967295")
+        BigIntPairArg(ns::BigInt("10"), ns::BigInt("1"), "11"),
+        BigIntPairArg(ns::BigInt("1000"), ns::BigInt("-1000"), "-8"), //Дополнительный код
+        BigIntPairArg(ns::BigInt("-1000"), ns::BigInt("-1000"), "-1000"),
+        BigIntPairArg(ns::BigInt("54321"), ns::BigInt("123"), "54395"),
+        BigIntPairArg(ns::BigInt("4294967296"), ns::BigInt("512"), "4294967808"),
+        BigIntPairArg(ns::BigInt("4294967295"), ns::BigInt("512"), "4294967295")
 )
 );
 
@@ -311,46 +311,46 @@ ASSERT_EQ(arg.expected, (std::string) (arg.val1 | arg.val2));
 }
 
 TEST(bigint_test, unary_minus) {
-BigInt val1("4294967296");
+ns::BigInt val1("4294967296");
 ASSERT_EQ("-4294967296", (std::string) -val1);
 
-BigInt val2("-4294967296");
+ns::BigInt val2("-4294967296");
 ASSERT_EQ("4294967296", (std::string) -val2);
 }
 
 TEST(bigint_test, unary_plus) {
-BigInt val1("4294967296");
+ns::BigInt val1("4294967296");
 ASSERT_EQ("4294967296", (std::string) +val1);
 
-BigInt val2("-4294967296");
+ns::BigInt val2("-4294967296");
 ASSERT_EQ("-4294967296", (std::string) +val2);
 }
 
 TEST(bigint_test, compare_test) {
-ASSERT_TRUE(BigInt("0") == BigInt("-0"));
-ASSERT_TRUE(BigInt("4294967296") == BigInt("4294967296"));
+ASSERT_TRUE(ns::BigInt("0") == ns::BigInt("-0"));
+ASSERT_TRUE(ns::BigInt("4294967296") == ns::BigInt("4294967296"));
 
-ASSERT_TRUE(BigInt("4294967296") != BigInt("4294967295"));
-ASSERT_TRUE(BigInt("4294967296") != BigInt("-4294967296"));
+ASSERT_TRUE(ns::BigInt("4294967296") != ns::BigInt("4294967295"));
+ASSERT_TRUE(ns::BigInt("4294967296") != ns::BigInt("-4294967296"));
 
-ASSERT_TRUE(BigInt("4294967296") > BigInt("4294967295"));
-ASSERT_TRUE(BigInt("4294967296") > BigInt("-4294967295"));
-ASSERT_TRUE(BigInt("-4294967294") > BigInt("-4294967295"));
+ASSERT_TRUE(ns::BigInt("4294967296") > ns::BigInt("4294967295"));
+ASSERT_TRUE(ns::BigInt("4294967296") > ns::BigInt("-4294967295"));
+ASSERT_TRUE(ns::BigInt("-4294967294") > ns::BigInt("-4294967295"));
 
-ASSERT_TRUE(BigInt("4294967295") < BigInt("4294967296"));
-ASSERT_TRUE(BigInt("-4294967295") < BigInt("4294967296"));
-ASSERT_TRUE(BigInt("-4294967295") < BigInt("-4294967294"));
+ASSERT_TRUE(ns::BigInt("4294967295") < ns::BigInt("4294967296"));
+ASSERT_TRUE(ns::BigInt("-4294967295") < ns::BigInt("4294967296"));
+ASSERT_TRUE(ns::BigInt("-4294967295") < ns::BigInt("-4294967294"));
 
-ASSERT_TRUE(BigInt("4294967296") <= BigInt("4294967296"));
-ASSERT_TRUE(BigInt("4294967296") >= BigInt("4294967296"));
+ASSERT_TRUE(ns::BigInt("4294967296") <= ns::BigInt("4294967296"));
+ASSERT_TRUE(ns::BigInt("4294967296") >= ns::BigInt("4294967296"));
 }
 
 TEST(bigint_test, size) {
-ASSERT_TRUE(BigInt("4294967296").size() > 0);
+ASSERT_TRUE(ns::BigInt("4294967296").size() > 0);
 }
 
 TEST(bigint_test, cout) {
-std::cout << BigInt("4294967296") << std::endl;
+std::cout << ns::BigInt("4294967296") << std::endl;
 }
 
 int main(int argc, char **argv) {

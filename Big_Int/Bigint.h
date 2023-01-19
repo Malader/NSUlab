@@ -6,67 +6,91 @@
 #include <vector>
 
 using namespace std;
+namespace ns {
+    class BigInt {
+    private:
+        static int const base_ = 1000000000;
 
-class BigInt {
-private:
-    static int const base_ = 1000000000;
+        vector<int> digits_;
 
-    vector<int> digits_;
+        bool is_negative_;
 
-    bool is_negative_;
+        void _remove_leading_zeros();
 
-    void _remove_leading_zeros();
-    BigInt& dif(const BigInt& num);
-    BigInt& sum(const BigInt& num);
-public:
-    BigInt();
-    explicit BigInt(int);
-    explicit BigInt(std::string str); // бросать исключение std::invalid_argument при ошибке
-    BigInt(const BigInt&);
-    ~BigInt();
+        BigInt &dif(const BigInt &num);
 
-    BigInt& operator=(const BigInt& vec);  //возможно присваивание самому себе!
+        BigInt &sum(const BigInt &num);
 
-    BigInt operator~() const; //инверсия (побитовая операция)
+    public:
+        BigInt();
 
-    BigInt& operator++();
-    const BigInt operator++(int);
-    BigInt& operator--();
-    const BigInt operator--(int);
+        explicit BigInt(int);
 
-    BigInt& operator+=(const BigInt& vec);
-    BigInt& operator*=(const BigInt& vec);
-    BigInt& operator-=(const BigInt& vec);
-    BigInt& operator/=(const BigInt& vec);
-    BigInt& operator^=(const BigInt& vec);
-    BigInt& operator%=(const BigInt& vec);
-    BigInt& operator&=(const BigInt& vec);
-    BigInt& operator|=(const BigInt& vec);
+        explicit BigInt(std::string str); // бросать исключение std::invalid_argument при ошибке
+        BigInt(const BigInt &);
 
-    BigInt operator+() const;  // unary +, умножает на 1: const BigInt res = -res2; просто поменять знау  укакого т о аргумента, = +res2;
-    BigInt operator-() const;  // unary -
+        ~BigInt();
 
-    bool operator==(const BigInt&) const;
-    bool operator!=(const BigInt&) const;
-    bool operator<(const BigInt&) const;
-    bool operator>(const BigInt&) const;
-    bool operator<=(const BigInt&) const;
-    bool operator>=(const BigInt&) const;
+        BigInt &operator=(const BigInt &vec);  //возможно присваивание самому себе!
 
-    operator int() const;
-    explicit operator std::string() const ;
+        BigInt operator~() const; //инверсия (побитовая операция)
 
-    size_t size() const;  // size in bytes
+        BigInt &operator++();
 
-};
-BigInt operator+(const BigInt& vec1, const BigInt& vec2);
-BigInt operator-(const BigInt& vec1, const BigInt& vec2);
-BigInt operator*(const BigInt& vec1, const BigInt& vec2);
-BigInt operator/(const BigInt& vec1, const BigInt& vec2);
-BigInt operator^(const BigInt& vec1, const BigInt& vec2);
-BigInt operator%(const BigInt& vec1, const BigInt& vec2);
-BigInt operator&(const BigInt& vec1, const BigInt& vec2);
-BigInt operator|(const BigInt& vec1, const BigInt& vec2);
+        const BigInt operator++(int);
+
+        BigInt &operator--();
+
+        const BigInt operator--(int);
+
+        BigInt &operator+=(const BigInt &vec);
+
+        BigInt &operator*=(const BigInt &vec);
+
+        BigInt &operator-=(const BigInt &vec);
+
+        BigInt &operator/=(const BigInt &vec);
+
+        BigInt &operator^=(const BigInt &vec);
+
+        BigInt &operator%=(const BigInt &vec);
+
+        BigInt &operator&=(const BigInt &vec);
+
+        BigInt &operator|=(const BigInt &vec);
+
+        BigInt
+        operator+() const;  // unary +, умножает на 1: const BigInt res = -res2; просто поменять знау  укакого т о аргумента, = +res2;
+        BigInt operator-() const;  // unary -
+
+        bool operator==(const BigInt &) const;
+
+        bool operator!=(const BigInt &) const;
+
+        bool operator<(const BigInt &) const;
+
+        bool operator>(const BigInt &) const;
+
+        bool operator<=(const BigInt &) const;
+
+        bool operator>=(const BigInt &) const;
+
+        operator int() const;
+
+        explicit operator std::string() const;
+
+        size_t size() const;  // size in bytes
+
+    };
+}
+ns::BigInt operator+(const ns::BigInt& vec1, const ns::BigInt& vec2);
+ns::BigInt operator-(const ns::BigInt& vec1, const ns::BigInt& vec2);
+ns::BigInt operator*(const ns::BigInt& vec1, const ns::BigInt& vec2);
+ns::BigInt operator/(const ns::BigInt& vec1, const ns::BigInt& vec2);
+ns::BigInt operator^(const ns::BigInt& vec1, const ns::BigInt& vec2);
+ns::BigInt operator%(const ns::BigInt& vec1, const ns::BigInt& vec2);
+ns::BigInt operator&(const ns::BigInt& vec1, const ns::BigInt& vec2);
+ns::BigInt operator|(const ns::BigInt& vec1, const ns::BigInt& vec2);
 
 
-std::ostream& operator<<(std::ostream& o, const BigInt& i);
+std::ostream& operator<<(std::ostream& o, const ns::BigInt& i);
