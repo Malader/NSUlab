@@ -41,3 +41,4 @@ std::vector<std::pair<int, int>> Game::getWinners() const
 {
     return playingField_.getWinners();
 }
+

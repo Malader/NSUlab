@@ -55,6 +55,5 @@ void DetailedGame::run()
                 continue;
         }
     }
-
     game_.finishGame();
 }

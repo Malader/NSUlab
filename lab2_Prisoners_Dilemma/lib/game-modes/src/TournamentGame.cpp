@@ -30,6 +30,7 @@ TournamentGame::TournamentGame(std::vector<std::string> strategiesNames, const i
         strategiesNames)), moves_(moves)
 {}
 
+
 void TournamentGame::run()
 {
     std::vector<std::pair<int, int>> roundResults;

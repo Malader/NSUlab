@@ -31,3 +31,4 @@ public:
 
     std::vector<std::pair<int, int>> getWinners() const;
 };
+
