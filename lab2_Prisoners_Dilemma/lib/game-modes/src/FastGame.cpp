@@ -15,5 +15,5 @@ void FastGame::run()
 
 std::vector<std::pair<int, int>> FastGame::getWinners() const
 {
-   return game_.getWinners();
+    return game_.getWinners();
 }

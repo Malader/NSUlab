@@ -1,12 +1,11 @@
 #include "Game.h"
 
 #include "StrategyFactory.h"
-
 Game::Game(std::vector<std::string> strategiesNames)
 {
     StrategyFactory *factory = &StrategyFactory::getInstance();
 
-    for (int i = 0; i < 3; i++)
+    for (int numberOfPlayers = 3, i = 0; i < numberOfPlayers; i++)
     {
         std::shared_ptr<IStrategy> player = factory->create(strategiesNames[i]);
 

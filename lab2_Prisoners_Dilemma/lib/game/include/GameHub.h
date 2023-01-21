@@ -25,6 +25,7 @@ private:
 
         bool parseCommand(GameHub &game, std::string &str);
 
+        bool chooseGameMode(GameHub& game, const std::vector<std::string> &strategiesNames);
     public:
         ParsingCommandLineArgs() = default;
 

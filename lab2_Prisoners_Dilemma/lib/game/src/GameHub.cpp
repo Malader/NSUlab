@@ -94,40 +94,7 @@ bool GameHub::ParsingCommandLineArgs::parseCommand(GameHub &game, std::string &s
     return false;
 }
 
-bool GameHub::ParsingCommandLineArgs::parseLine(GameHub &game)
-{
-    initialize(game);
-
-    std::vector<std::string> strategiesNames;
-
-    StrategyFactory *factory = &StrategyFactory::getInstance();
-
-    for (int i = 1; i < game.argv_.size(); ++i)
-    {
-        if (game.argv_[i][0] == '-' && game.argv_[i][1] == '-')
-        {
-            if (parseCommand(game, game.argv_[i]))
-            {
-                std::cerr << "\t\t\tParameter entered incorrectly" << std::endl;
-                return true;
-            }
-            continue;
-        }
-
-        if (!factory->canCreateStrategy(game.argv_[i]))
-        {
-            std::cerr << "\t\t\t" << game.argv_[i] << " : no such strategy exists" << std::endl;
-            return true;
-        }
-
-        strategiesNames.push_back(game.argv_[i]);
-    }
-
-    while (strategiesNames.size() < 3)
-    {
-        strategiesNames.push_back("alternating");
-    }
-
+bool GameHub::ParsingCommandLineArgs::chooseGameMode(GameHub &game, const std::vector<std::string> &strategiesNames) {
     if (game.gameModeName_.empty())
     {
         if (strategiesNames.size() > 3)
@@ -184,6 +151,44 @@ bool GameHub::ParsingCommandLineArgs::parseLine(GameHub &game)
 
     std::cerr << "Name of game mode entered incorrectly" << std::endl;
     return true;
+}
+
+
+bool GameHub::ParsingCommandLineArgs::parseLine(GameHub &game)
+{
+    initialize(game);
+
+    std::vector<std::string> strategiesNames;
+
+    StrategyFactory *factory = &StrategyFactory::getInstance();
+
+    for (int i = 1; i < game.argv_.size(); ++i)
+    {
+        if (game.argv_[i][0] == '-' && game.argv_[i][1] == '-')
+        {
+            if (parseCommand(game, game.argv_[i]))
+            {
+                std::cerr << "\t\t\tParameter entered incorrectly" << std::endl;
+                return true;
+            }
+            continue;
+        }
+
+        if (!factory->canCreateStrategy(game.argv_[i]))
+        {
+            std::cerr << "\t\t\t" << game.argv_[i] << " : no such strategy exists" << std::endl;
+            return true;
+        }
+
+        strategiesNames.push_back(game.argv_[i]);
+    }
+
+    while (strategiesNames.size() < 3)
+    {
+        strategiesNames.push_back("alternating");
+    }
+
+    return chooseGameMode(game,strategiesNames);
 }
 
 GameHub::GameHub(int argc, const char **argv)

@@ -3,6 +3,29 @@
 #include <algorithm>
 #include <iostream>
 
+namespace
+{
+    bool checkWinners(std::pair<int,int> &player, std::vector<int> winners, int &maxRoundResult, int playerNum)
+    {
+        if (player.second != maxRoundResult)
+        {
+            maxRoundResult = player.second;
+
+            winners.clear();
+            winners.push_back(playerNum);
+
+            return true;
+        }
+
+        if (std::find(winners.begin(), winners.end(), playerNum) == winners.end())
+        {
+            winners.push_back(playerNum);
+        }
+
+        return false;
+    }
+}
+
 TournamentGame::TournamentGame(std::vector<std::string> strategiesNames, const int &moves) : strategiesNames_(std::move(
         strategiesNames)), moves_(moves)
 {}
@@ -58,19 +81,9 @@ void TournamentGame::run()
                                 break;
                         }
 
-                        if (player.second != maxRoundResult)
+                        if(checkWinners(player,winners,maxRoundResult,playerNum))
                         {
-                            maxRoundResult = player.second;
-
-                            winners.clear();
-                            winners.push_back(playerNum);
-
                             continue;
-                        }
-
-                        if (std::find(winners.begin(), winners.end(), playerNum) == winners.end())
-                        {
-                            winners.push_back(playerNum);
                         }
                     }
                 }
